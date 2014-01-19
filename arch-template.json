@@ -1,6 +1,6 @@
 {
     "variables": {
-        "iso_url": "https://mirrors.kernel.org/archlinux/iso/2014.01.05/archlinux-2014.01.05-dual.iso",
+        "iso_url": "archlinux-2014.01.05-dual.iso",
         "iso_checksum": "4d43709987c3cf19059195f9450465de3b87a5cb",
         "iso_checksum_type": "sha1"
     },
@@ -13,7 +13,7 @@
             "guest_os_type": "ArchLinux_64",
             "guest_additions_mode": "disable",
             "http_directory": ".",
-            "boot_wait": "5s",
+            "boot_wait": "15s",
             "boot_command": [
                 "<enter><wait10><wait10>",
                 "/usr/bin/curl -O http://{{.HTTPIP}}:{{.HTTPPort}}/install-virtualbox.sh<enter><wait5>",
@@ -23,7 +23,12 @@
             "disk_size": 20480,
             "ssh_username": "root",
             "ssh_password": "vagrant",
-            "shutdown_command": "systemctl start poweroff.timer"
+            "ssh_wait_timeout": "60m",
+            "shutdown_command": "systemctl start poweroff.timer",
+            "vboxmanage": [
+                [ "modifyvm", "{{.Name}}", "--memory", "1024" ],
+                [ "modifyvm", "{{.Name}}", "--cpus", "2" ]
+            ]
         },
         {
             "type": "vmware-iso",
